@@ -36,34 +36,17 @@
         <ar-camera></ar-camera>
 
         <ar-root reference-image="menu">
+
             <a-entity rotation="0 0 0" position="0 -0.1 0">
                 <a-light type="ambient" intensity="1.5"></a-light>
-                <a-entity gltf-model="#plant-model" gltf-anim="clip: Idle" rotation="90 0 0" scale="5 5 5"></a-entity>
-                <a-plane width="4" height="4"
-                    material="src: #magic-circle; color: #beefff; side: double; shader: flat; transparent: true; opacity: 1"
-                    animation="property: object3D.rotation.z; from: 360; to: 0; dur: 8000; loop: true; easing: linear">
-                </a-plane>
-
+                <a-entity gltf-model="#burger-model" gltf-anim="clip: Idle" rotation="90 0 0"
+                    scale="0.5 0.5 0.5"></a-entity>
             </a-entity>
-
-            <!-- <a-entity rotation="0 0 0" position="1.25 -0.1 0">
-                <a-light type="ambient" intensity="1.5"></a-light>
-                <a-entity gltf-model="#milk-model" gltf-anim="clip: Idle" rotation="90 0 0" scale="5 5 5"></a-entity>
-            </a-entity>
-
-            <a-entity rotation="0 0 0" position="-1.25 -0.1 0">
-                <a-light type="ambient" intensity="1.5"></a-light>
-                <a-entity gltf-model="#random-model" gltf-anim="clip: Idle" rotation="90 0 0" scale="5 5 5"></a-entity>
-            </a-entity> -->
 
         </ar-root>
 
         <a-assets>
-            <a-asset-item id="plant-model" src="/assets/plant.glb"></a-asset-item>
-            <!-- <a-asset-item id="milk-model" src="/assets/milk.glb"></a-asset-item>
-            <a-asset-item id="random-model" src="/assets/random.glb"></a-asset-item> -->
-
-            <img id="magic-circle" src="/assets/magic-circle.png">
+            <a-asset-item id="burger-model" src="/assets/burger.glb"></a-asset-item>
         </a-assets>
 
     </a-scene>
