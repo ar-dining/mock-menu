@@ -37,16 +37,23 @@
 
         <ar-root reference-image="menu">
 
-            <a-entity rotation="0 0 0" position="0 -0.1 0">
+            <!-- <a-entity rotation="0 0 0" position="0 -0.1 0">
                 <a-light type="ambient" intensity="1.5"></a-light>
                 <a-entity gltf-model="#burger-model" gltf-anim="clip: Idle" rotation="90 0 0"
                     scale="0.5 0.5 0.5"></a-entity>
+            </a-entity> -->
+
+            <a-entity rotation="0 0 0" position="0 -0.1 0">
+                <a-light type="ambient" intensity="1.5"></a-light>
+                <a-entity gltf-model="#pizza-model" gltf-anim="clip: Idle" rotation="90 0 0" scale="5 5 5"></a-entity>
             </a-entity>
 
         </ar-root>
 
         <a-assets>
-            <a-asset-item id="burger-model" src="/assets/burger.glb"></a-asset-item>
+            <!-- <a-asset-item id="burger-model" src="/assets/burger.glb"></a-asset-item> -->
+            <a-asset-item id="pizza-model" src="/assets/pizza.glb"></a-asset-item>
+
         </a-assets>
 
     </a-scene>
