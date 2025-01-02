@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>plant</title>
+    <title>Plant</title>
     <link href="/assets/demo.css" rel="stylesheet">
     <script src="/dist/encantar.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe-v1.4.2.min.js"></script>
@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <a-scene encantar="stats :true; gizmos: true">
+    <a-scene encantar="stats :false; gizmos: false">
         <ar-sources>
             <ar-camera-source></ar-camera-source>
         </ar-sources>
@@ -27,44 +27,71 @@
 
         <ar-viewport>
             <ar-hud>
-                <a id="info" href="info.html" draggable="false"></a>
-                <a id="follow" href="follow.html" draggable="false"></a>
-                <a-entity ar-scan-gimmick="opacity: 0.75"></a-entity>
+                <!-- Navigation Buttons -->
+                <button id="prev-button"
+                    style="position: fixed; bottom: 10%; left: 10%; z-index: 999; padding: 10px; font-size: 16px;">Previous</button>
+                <button id="next-button"
+                    style="position: fixed; bottom: 10%; right: 10%; z-index: 999; padding: 10px; font-size: 16px;">Next</button>
             </ar-hud>
         </ar-viewport>
 
         <ar-camera></ar-camera>
 
         <ar-root reference-image="menu">
-            <a-entity rotation="0 0 0" position="0 -0.1 0">
+            <!-- Models -->
+            <a-entity id="plant-model" rotation="0 0 0" position="0 -0.1 0" visible="true">
                 <a-light type="ambient" intensity="1.5"></a-light>
-                <a-entity gltf-model="#plant-model" gltf-anim="clip: Idle" rotation="90 0 0" scale="5 5 5"></a-entity>
-                <a-plane width="4" height="4"
-                    material="src: #magic-circle; color: #beefff; side: double; shader: flat; transparent: true; opacity: 1"
-                    animation="property: object3D.rotation.z; from: 360; to: 0; dur: 8000; loop: true; easing: linear">
-                </a-plane>
-
+                <a-entity gltf-model="#plant-model-asset" gltf-anim="clip: Idle" rotation="90 0 0"
+                    scale="5 5 5"></a-entity>
             </a-entity>
 
-            <a-entity rotation="0 0 0" position="1.25 -0.1 0">
+            <a-entity id="milk-model" rotation="0 0 0" position="0 -0.1 0" visible="false">
                 <a-light type="ambient" intensity="1.5"></a-light>
-                <a-entity gltf-model="#milk-model" gltf-anim="clip: Idle" rotation="90 0 0" scale="5 5 5"></a-entity>
+                <a-entity gltf-model="#milk-model-asset" gltf-anim="clip: Idle" rotation="90 0 0"
+                    scale="5 5 5"></a-entity>
             </a-entity>
 
-            <a-entity rotation="0 0 0" position="-1.25 -0.1 0">
+            <a-entity id="random-model" rotation="0 0 0" position="0 -0.1 0" visible="false">
                 <a-light type="ambient" intensity="1.5"></a-light>
-                <a-entity gltf-model="#random-model" gltf-anim="clip: Idle" rotation="90 0 0" scale="5 5 5"></a-entity>
+                <a-entity gltf-model="#random-model-asset" gltf-anim="clip: Idle" rotation="90 0 0"
+                    scale="5 5 5"></a-entity>
             </a-entity>
-
         </ar-root>
 
         <a-assets>
-            <a-asset-item id="plant-model" src="/assets/plant.glb"></a-asset-item>
-            <a-asset-item id="milk-model" src="/assets/milk.glb"></a-asset-item>
-            <a-asset-item id="random-model" src="/assets/random.glb"></a-asset-item>
-
-            <img id="magic-circle" src="/assets/magic-circle.png">
+            <a-asset-item id="plant-model-asset" src="/assets/plant.glb"></a-asset-item>
+            <a-asset-item id="milk-model-asset" src="/assets/milk.glb"></a-asset-item>
+            <a-asset-item id="random-model-asset" src="/assets/random.glb"></a-asset-item>
         </a-assets>
-
     </a-scene>
+
+    <script>
+        // List of model IDs
+        const models = ['plant-model', 'milk-model', 'random-model'];
+        let currentIndex = 0;
+
+        // Function to update visibility
+        function updateModelVisibility() {
+            models.forEach((id, index) => {
+                const model = document.getElementById(id);
+                model.setAttribute('visible', index === currentIndex);
+            });
+        }
+
+        // Event listeners for buttons
+        document.getElementById('prev-button').addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + models.length) % models.length; // Wrap around
+            updateModelVisibility();
+        });
+
+        document.getElementById('next-button').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % models.length; // Wrap around
+            updateModelVisibility();
+        });
+
+        // Initial visibility update
+        updateModelVisibility();
+    </script>
 </body>
+
+</html>
