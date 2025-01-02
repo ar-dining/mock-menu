@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>3D Food Menu</title>
+    <link href="/assets/demo.css" rel="stylesheet">
+    <script src="/dist/encantar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe-v1.4.2.min.js"></script>
+    <script src="/plugins/aframe-with-encantar.js"></script>
+    <script src="/plugins/extras/aframe-scan-gimmick-for-encantar.js"></script>
+    <script src="/plugins/extras/aframe-gltf-anim.js"></script>
+</head>
+
+<body>
+    <a-scene encantar="stats :true; gizmos: true">
+        <ar-sources>
+            <ar-camera-source></ar-camera-source>
+        </ar-sources>
+
+        <ar-trackers>
+            <ar-image-tracker>
+                <ar-reference-image name="menu" src="/assets/menu.webp"></ar-reference-image>
+            </ar-image-tracker>
+        </ar-trackers>
+
+        <ar-viewport>
+            <ar-hud>
+                <!-- Dropdown Menu -->
+                <select id="category-select"
+                    style="position: fixed; top: 10%; left: 50%; transform: translateX(-50%); z-index: 999; font-size: 16px; padding: 5px;">
+                    <option value="starters">Starters</option>
+                    <option value="mains">Mains</option>
+                    <option value="desserts">Desserts</option>
+                </select>
+            </ar-hud>
+        </ar-viewport>
+
+        <ar-camera></ar-camera>
+
+        <ar-root reference-image="menu">
+            <!-- Starters -->
+            <a-entity id="starter-1" rotation="0 0 0" position="0 -0.1 0" visible="false">
+                <a-light type="ambient" intensity="1.5"></a-light>
+                <a-entity gltf-model="#starter-1-model" rotation="90 0 0" scale="5 5 5"></a-entity>
+            </a-entity>
+            <a-entity id="starter-2" rotation="0 0 0" position="1 -0.1 0" visible="false">
+                <a-light type="ambient" intensity="1.5"></a-light>
+                <a-entity gltf-model="#starter-2-model" rotation="90 0 0" scale="5 5 5"></a-entity>
+            </a-entity>
+
+            <!-- Mains -->
+            <a-entity id="main-1" rotation="0 0 0" position="0 -0.1 0" visible="false">
+                <a-light type="ambient" intensity="1.5"></a-light>
+                <a-entity gltf-model="#main-1-model" rotation="90 0 0" scale="5 5 5"></a-entity>
+            </a-entity>
+
+            <!-- Desserts -->
+            <a-entity id="dessert-1" rotation="0 0 0" position="0 -0.1 0" visible="false">
+                <a-light type="ambient" intensity="1.5"></a-light>
+                <a-entity gltf-model="#dessert-1-model" rotation="90 0 0" scale="5 5 5"></a-entity>
+            </a-entity>
+        </ar-root>
+
+        <a-assets>
+            <!-- Starter Models -->
+            <a-asset-item id="starter-1-model" src="/assets/starter1.glb"></a-asset-item>
+            <a-asset-item id="starter-2-model" src="/assets/starter2.glb"></a-asset-item>
+
+            <!-- Main Models -->
+            <a-asset-item id="main-1-model" src="/assets/main1.glb"></a-asset-item>
+
+            <!-- Dessert Models -->
+            <a-asset-item id="dessert-1-model" src="/assets/dessert1.glb"></a-asset-item>
+        </a-assets>
+    </a-scene>
+
+    <script>
+        // Model categories
+        const categories = {
+            starters: ['starter-1', 'starter-2'],
+            mains: ['main-1'],
+            desserts: ['dessert-1']
+        };
+
+        // Function to update visibility based on category
+        function updateCategoryVisibility(selectedCategory) {
+            Object.keys(categories).forEach(category => {
+                categories[category].forEach(modelId => {
+                    const model = document.getElementById(modelId);
+                    model.setAttribute('visible', category === selectedCategory);
+                });
+            });
+        }
+
+        // Dropdown event listener
+        document.getElementById('category-select').addEventListener('change', (event) => {
+            updateCategoryVisibility(event.target.value);
+        });
+
+        // Initialize to 'starters'
+        updateCategoryVisibility('starters');
+    </script>
+</body>
+
+</html>

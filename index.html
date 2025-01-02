@@ -11,6 +11,41 @@
     <script src="/plugins/aframe-with-encantar.js"></script>
     <script src="/plugins/extras/aframe-scan-gimmick-for-encantar.js"></script>
     <script src="/plugins/extras/aframe-gltf-anim.js"></script>
+    <style>
+        /* Position and style for the drop-up menu */
+        #category-select {
+            position: fixed;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999;
+            font-size: 16px;
+            padding: 5px;
+        }
+
+        #category-select option {
+            background: #fff;
+            color: #000;
+            padding: 5px;
+        }
+
+        /* Drop-up behavior */
+        #category-select {
+            appearance: none;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Optional: Add an arrow indicator */
+        #category-select::after {
+            content: '▲';
+            font-size: 10px;
+            position: absolute;
+            right: 10px;
+            top: calc(50% - 5px);
+        }
+    </style>
 </head>
 
 <body>
@@ -29,7 +64,14 @@
             <ar-hud>
                 <!-- Navigation Buttons -->
                 <button id="prev-button"
-                    style="position: fixed; bottom: 10%; left: 10%; z-index: 999; padding: 10px; font-size: 16px;">Previous</button>
+                    style="position: fixed; bottom: 10%; left: 10%; z-index: 999; padding: 10px; font-size: 16px;">Back</button>
+
+                <!-- Drop-Up Menu -->
+                <select id="category-select">
+                    <option value="option1">Option 1</option>
+                    <option value="option2">Option 2</option>
+                </select>
+
                 <button id="next-button"
                     style="position: fixed; bottom: 10%; right: 10%; z-index: 999; padding: 10px; font-size: 16px;">Next</button>
             </ar-hud>
@@ -66,31 +108,45 @@
     </a-scene>
 
     <script>
-        // List of model IDs
-        const models = ['plant-model', 'milk-model', 'random-model'];
+        // Categories of models
+        const categories = {
+            option1: ['plant-model', 'milk-model'],
+            option2: ['random-model']
+        };
+
+        let currentCategory = 'option1'; // Default category
         let currentIndex = 0;
 
-        // Function to update visibility
-        function updateModelVisibility() {
-            models.forEach((id, index) => {
-                const model = document.getElementById(id);
-                model.setAttribute('visible', index === currentIndex);
+        // Function to update visibility based on category
+        function updateCategoryVisibility() {
+            Object.keys(categories).forEach(category => {
+                categories[category].forEach(modelId => {
+                    const model = document.getElementById(modelId);
+                    model.setAttribute('visible', category === currentCategory && categories[category][currentIndex] === modelId);
+                });
             });
         }
 
-        // Event listeners for buttons
+        // Event listener for dropdown menu
+        document.getElementById('category-select').addEventListener('change', (event) => {
+            currentCategory = event.target.value;
+            currentIndex = 0; // Reset index when category changes
+            updateCategoryVisibility();
+        });
+
+        // Event listeners for navigation buttons
         document.getElementById('prev-button').addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + models.length) % models.length; // Wrap around
-            updateModelVisibility();
+            currentIndex = (currentIndex - 1 + categories[currentCategory].length) % categories[currentCategory].length; // Wrap around
+            updateCategoryVisibility();
         });
 
         document.getElementById('next-button').addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % models.length; // Wrap around
-            updateModelVisibility();
+            currentIndex = (currentIndex + 1) % categories[currentCategory].length; // Wrap around
+            updateCategoryVisibility();
         });
 
-        // Initial visibility update
-        updateModelVisibility();
+        // Initialize to default category
+        updateCategoryVisibility();
     </script>
 </body>
 
