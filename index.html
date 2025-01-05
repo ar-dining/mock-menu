@@ -4,9 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Plant</title>
+    <title>Mock Menu</title>
     <link href="/assets/demo.css" rel="stylesheet">
-    <script src="/dist/encantar.min.js"></script>
+    <!-- <script src="/dist/encantar.min.js"></script> -->
+    <script src="/dist/encantar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe-v1.4.2.min.js"></script>
     <script src="/plugins/aframe-with-encantar.js"></script>
     <script src="/plugins/extras/aframe-scan-gimmick-for-encantar.js"></script>
@@ -49,7 +50,7 @@
 </head>
 
 <body>
-    <a-scene encantar="stats :false; gizmos: false">
+    <a-scene encantar="stats :false; gizmos: true">
         <ar-sources>
             <ar-camera-source></ar-camera-source>
         </ar-sources>
@@ -63,7 +64,7 @@
         <ar-viewport>
             <ar-hud>
                 <!-- Navigation Buttons -->
-                <button id="prev-button"
+                <button id="back-button"
                     style="position: fixed; bottom: 10%; left: 10%; z-index: 999; padding: 10px; font-size: 16px;">Back</button>
 
                 <!-- Drop-Up Menu -->
@@ -135,7 +136,7 @@
         });
 
         // Event listeners for navigation buttons
-        document.getElementById('prev-button').addEventListener('click', () => {
+        document.getElementById('back-button').addEventListener('click', () => {
             currentIndex = (currentIndex - 1 + categories[currentCategory].length) % categories[currentCategory].length; // Wrap around
             updateCategoryVisibility();
         });
